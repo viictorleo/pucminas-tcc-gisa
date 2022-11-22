@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Health wallets</h1>
+
+<div id="health_wallets">
+  <% @health_wallets.each do |health_wallet| %>
+    <%= render health_wallet %>
+    <p>
+      <%= link_to "Show this health wallet", health_wallet %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New health wallet", new_health_wallet_path %>

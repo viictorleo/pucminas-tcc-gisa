@@ -1,0 +1,2 @@
+class HealthWallet < ApplicationRecord
+end

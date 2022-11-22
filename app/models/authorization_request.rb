@@ -1,0 +1,2 @@
+class AuthorizationRequest < ApplicationRecord
+end

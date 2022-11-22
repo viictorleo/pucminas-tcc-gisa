@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @health_wallet %>
+
+<div>
+  <%= link_to "Edit this health wallet", edit_health_wallet_path(@health_wallet) %> |
+  <%= link_to "Back to health wallets", health_wallets_path %>
+
+  <%= button_to "Destroy this health wallet", @health_wallet, method: :delete %>
+</div>

@@ -1,0 +1,2 @@
+module AssociateServicesHelper
+end
