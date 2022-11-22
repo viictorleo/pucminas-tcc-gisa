@@ -1,0 +1,10 @@
+{
+  "name": "pucminas-tcc-gisa",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Victor Barbosa <victorbarbosa@unimedrj.coop.br>",
+  "license": "MIT",
+  "dependencies": {
+    "stimulus-reveal-controller": "^4.0.0"
+  }
+}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PucminasTccGisa</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+
+    <!--
+      This example requires some changes to your config:
+      
+      ```
+      // tailwind.config.js
+      module.exports = {
+        // ...
+        plugins: [
+          // ...
+          require('@tailwindcss/forms'),
+        ],
+      }
+      ```
+    -->
+    <!--
+      This example requires updating your template:
+
+      ```
+      <html class="h-full bg-white">
+      <body class="h-full">
+      ```
+    -->
+    <div class="mt-16 flex min-h-full">
+      <div class="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+        <div class="mx-auto w-full max-w-sm lg:w-96">
+          <div>
+            <div class="flex-shrink-0 text-4xl text-gray-400">
+              <p><b>BOA</b>SAÚDE</p>
+            </div>  
+            <h2 class="mt-6 text-3xl font-bold tracking-tight text-gray-900">Acesse sua conta</h2>
+            
+          </div>
+
+          <div class="mt-8">
+            <div>
+              
+              
+            </div>
+
+            <div class="mt-6">
+               <%= yield %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="relative hidden w-0 flex-1 lg:block">
+        <img class="absolute inset-0 h-full w-full object-cover" src="https://prodoctor.net/blog/wp-content/uploads/2020/03/como-melhorar-a-rela%C3%A7%C3%A3o-m%C3%A9dico-paciente.png-min-1280x720.jpg" alt="">
+      </div>
+    </div>
+
+   
+  </body>
+</html>
