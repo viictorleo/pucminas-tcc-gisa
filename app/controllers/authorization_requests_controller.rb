@@ -65,6 +65,6 @@ class AuthorizationRequestsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def authorization_request_params
-      params.fetch(:authorization_request, {})
+      params.require(:authorization_request).permit(:paciente, :procedimento)
     end
 end

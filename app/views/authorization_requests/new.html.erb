@@ -1,9 +1,20 @@
-<h1>New authorization request</h1>
+<!-- p style="color: green"><%= notice %></p> -->
+<div class="grid grid-cols-2 mx-8">
+  <div class="">
+    <div class="flex">
+      <p class="text-2xl mr-2">Nova solicitação de autorização</p>
+    </div>
 
-<%= render "form", authorization_request: @authorization_request %>
+    <br>
 
-<br>
+    <%= render "form", authorization_request: @authorization_request %>
 
-<div>
-  <%= link_to "Back to authorization requests", authorization_requests_path %>
+    <div>
+      <%= link_to "Voltar", authorization_requests_path %>
+    </div>
+
+  </div>
+  <div>
+    <img width="60%" class="float-right" src= "https://www.clinfer.com.br/wp-content/uploads/2020/07/joia.png">
+  </div>
 </div>

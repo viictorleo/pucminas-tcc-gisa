@@ -1,14 +1,31 @@
-<p style="color: green"><%= notice %></p>
+<!-- p style="color: green"><%= notice %></p> -->
+<div class="grid grid-cols-2 mx-8">
+  <div class="">
+    <div class="flex">
+      <p class="text-2xl mr-2">Carteirinha Atual</p>
+      <p class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 capitalize">Ativo</p>
+    </div>
 
-<h1>Health wallets</h1>
+    <p class="text-lg">Número: 00229 929239 93290 39293</p>
+    <p class="">Data de emissão: 11/12/21</p>
 
-<div id="health_wallets">
-  <% @health_wallets.each do |health_wallet| %>
-    <%= render health_wallet %>
-    <p>
-      <%= link_to "Show this health wallet", health_wallet %>
-    </p>
-  <% end %>
+    <br>
+
+    <%= link_to new_health_wallet_path do %>
+       <p class="inline-flex items-center px-2.5 py-0.5 rounded-full text-md font-medium bg-red-100 text-red-800 capitalize">Cancelar</p>
+    <% end %>
+
+    <%= link_to new_health_wallet_path do %>
+       <p class="inline-flex items-center px-2.5 py-0.5 rounded-full text-md font-medium bg-green-100 text-green-800 capitalize">Solicitar nova via</p>
+    <% end %>
+
+    
+    <p class="text-2xl mt-4">Andamento do Pedido</p>
+    <p class="">Aguardando Depto. de produção</p>
+
+
+  </div>
+  <div>
+    <img src= "https://ms-publico.s3-sa-east-1.amazonaws.com/cms/post/2019/03/c_materia_3_7c0ed80aade326d01ae8171be8b2baa05336e026.png">
+  </div>
 </div>
-
-<%= link_to "New health wallet", new_health_wallet_path %>
