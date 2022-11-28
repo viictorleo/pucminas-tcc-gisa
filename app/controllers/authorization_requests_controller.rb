@@ -1,5 +1,6 @@
 class AuthorizationRequestsController < ApplicationController
   before_action :set_authorization_request, only: %i[ show edit update destroy ]
+  before_action :authorization_pundit
 
   # GET /authorization_requests or /authorization_requests.json
   def index
@@ -66,5 +67,9 @@ class AuthorizationRequestsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def authorization_request_params
       params.require(:authorization_request).permit(:paciente, :procedimento)
+    end
+
+    def authorization_pundit
+      authorize :authorization_requests
     end
 end
