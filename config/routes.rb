@@ -2,7 +2,9 @@ Rails.application.routes.draw do
   resources :authorization_requests
   resources :health_wallets
   devise_for :user, controllers: {
-    sessions: 'user/sessions'
+    sessions: 'user/sessions',
+    registrations: 'user/registrations'
+
   }
   resources :user
   root 'home#index'
