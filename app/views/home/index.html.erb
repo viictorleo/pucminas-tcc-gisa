@@ -1,3 +1,9 @@
+<% if notice.present? %>
+<div class="bg-gray-100 rounded-lg py-6 mb-8 mx-8 flex items-center justify-center">
+  <p style="color: black"><%= notice %> </p>
+</div>
+<% end %>
+
 <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 px-8">
   <% if policy(:authorization_requests).index? %>
     <div class="bg-slate-300 rounded-lg py-8 h-30 sm:h-40 flex items-center justify-center"><p>Informações Cadastrais</p></div>

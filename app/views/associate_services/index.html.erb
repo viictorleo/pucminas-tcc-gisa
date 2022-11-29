@@ -1,3 +1,9 @@
+<% if notice.present? %>
+<div class="bg-red-100 rounded-lg py-6 mb-8 mx-8 flex items-center justify-center">
+  <p style="color: red"><%= notice %> </p>
+</div>
+<% end %>
+
 <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 px-8">
   <div class="bg-slate-200 rounded-lg py-8 h-30 sm:h-40 flex items-center justify-center"><p>Atualização Cadastral</p></div>
   <div class="bg-slate-200 rounded-lg py-8 h-30 sm:h-40 flex items-center justify-center"><p>Nova via de Boleto</p></div>

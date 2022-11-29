@@ -4,7 +4,7 @@ class AuthorizationRequestsController < ApplicationController
 
   # GET /authorization_requests or /authorization_requests.json
   def index
-    @authorization_requests = AuthorizationRequest.all
+    @authorization_requests = AuthorizationRequest.all.order('updated_at desc')
   end
 
   # GET /authorization_requests/1 or /authorization_requests/1.json
@@ -22,16 +22,21 @@ class AuthorizationRequestsController < ApplicationController
 
   # POST /authorization_requests or /authorization_requests.json
   def create
-    @authorization_request = AuthorizationRequest.new(authorization_request_params)
+    paciente = HealthWallet.find_by(numero: authorization_request_params[:carteirinha])
+    status = if authorization_request_params[:procedimento] == 'Exame - PET/ CT'
+                'Em análise'
+             else
+               'Autorizado'
+             end
+    # authorization_request_params
+    @authorization_request = AuthorizationRequest.new(authorization_request_params.merge!(paciente: paciente.paciente, status: status))
+    @authorization_request.save
 
     respond_to do |format|
-      if @authorization_request.save
-        format.html { redirect_to authorization_request_url(@authorization_request), notice: "Authorization request was successfully created." }
-        format.json { render :show, status: :created, location: @authorization_request }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @authorization_request.errors, status: :unprocessable_entity }
-      end
+      
+      format.html { redirect_to authorization_requests_path, notice: "Solicitação de autorização realizada com sucesso." }
+      format.json { head :no_content }
+
     end
   end
 
@@ -66,7 +71,7 @@ class AuthorizationRequestsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def authorization_request_params
-      params.require(:authorization_request).permit(:paciente, :procedimento)
+      params.require(:authorization_request).permit(:carteirinha, :paciente, :procedimento, :status)
     end
 
     def authorization_pundit

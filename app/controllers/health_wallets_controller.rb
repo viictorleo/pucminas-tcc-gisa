@@ -12,7 +12,10 @@ class HealthWalletsController < ApplicationController
 
   # GET /health_wallets/new
   def new
-    @health_wallet = HealthWallet.new
+    create
+
+    # render :nothing => true
+
   end
 
   # GET /health_wallets/1/edit
@@ -21,16 +24,15 @@ class HealthWalletsController < ApplicationController
 
   # POST /health_wallets or /health_wallets.json
   def create
-    @health_wallet = HealthWallet.new(health_wallet_params)
+    # @health_wallet = HealthWallet.new
+    HealthWallet.create(numero: '256381370000001', status:'Em Produção', paciente: 'João Associado')
+    # @health_wallet.save
 
     respond_to do |format|
-      if @health_wallet.save
-        format.html { redirect_to health_wallet_url(@health_wallet), notice: "Health wallet was successfully created." }
-        format.json { render :show, status: :created, location: @health_wallet }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @health_wallet.errors, status: :unprocessable_entity }
-      end
+      
+      format.html { redirect_to associate_services_path, notice: "Nova via de Carteirinha solicitada com sucesso." }
+      format.json { render :show, status: :created, location: @health_wallet }
+
     end
   end
 
@@ -44,6 +46,18 @@ class HealthWalletsController < ApplicationController
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @health_wallet.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def cancelar
+    carteirinha = HealthWallet.last
+    carteirinha.update(status:"Cancelada")
+
+    respond_to do |format|
+      
+        format.html { redirect_to associate_services_path, notice: "Carteirinha cancelada com sucesso." }
+        format.json { render :show, status: :created, location: @health_wallet }
+  
     end
   end
 
@@ -65,6 +79,6 @@ class HealthWalletsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def health_wallet_params
-      params.fetch(:health_wallet, {})
+      params.permit(:paciente, :codigo, :status, :created_at, :updated_at)
     end
 end

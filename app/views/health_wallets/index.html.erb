@@ -3,25 +3,37 @@
   <div class="">
     <div class="flex">
       <p class="text-2xl mr-2">Carteirinha Atual</p>
-      <p class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 capitalize">Ativo</p>
+      
+      <% if @health_wallets.last.status == 'Ativo' %>
+      <p class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 capitalize"><%= @health_wallets.last.status %></p>
+      <% else %>
+      <p class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 capitalize"><%= @health_wallets.last.status %></p>
+      <% end %>
+
     </div>
 
-    <p class="text-lg">Número: 00229 929239 93290 39293</p>
-    <p class="">Data de emissão: 11/12/21</p>
+    <p class="text-lg">Número: <%= @health_wallets.last.numero %></p>
+    <p class="">Data de emissão: <%= @health_wallets.last.created_at %></p>
 
     <br>
 
-    <%= link_to new_health_wallet_path do %>
-       <p class="inline-flex items-center px-2.5 py-0.5 rounded-full text-md font-medium bg-red-100 text-red-800 capitalize">Cancelar</p>
+    <% if @health_wallets.last.status == 'Ativo' %>
+      <%= link_to cancelar_health_wallets_path do %>
+        <p class="inline-flex items-center px-2.5 py-0.5 rounded-full text-md font-medium bg-red-100 text-red-800 capitalize">Cancelar</p>
+      <% end %>
     <% end %>
 
-    <%= link_to new_health_wallet_path do %>
-       <p class="inline-flex items-center px-2.5 py-0.5 rounded-full text-md font-medium bg-green-100 text-green-800 capitalize">Solicitar nova via</p>
+    <% if @health_wallets.last.status == 'Cancelada' %>
+      <%= link_to new_health_wallet_path do %>
+        <p class="inline-flex items-center px-2.5 py-0.5 rounded-full text-md font-medium bg-green-100 text-green-800 capitalize">Solicitar nova via</p>
+      <% end %>
     <% end %>
 
-    
-    <p class="text-2xl mt-4">Andamento do Pedido</p>
-    <p class="">Aguardando Depto. de produção</p>
+
+    <% if @health_wallets.last.status == 'Em Produção' %>
+      <p class="text-2xl mt-4">Andamento do Pedido</p>
+      <p class="">Aguardando Depto. de produção</p>
+    <% end %>
 
 
   </div>

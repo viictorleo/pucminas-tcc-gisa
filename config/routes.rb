@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   resources :authorization_requests
-  resources :health_wallets
+  resources :health_wallets do
+    collection do
+      get :cancelar
+    end
+  end
   devise_for :user, controllers: {
     sessions: 'user/sessions',
     registrations: 'user/registrations'
