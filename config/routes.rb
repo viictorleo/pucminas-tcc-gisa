@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+
+  resources :plans, :defaults => { :format => :json }
+
   resources :authorization_requests
   resources :health_wallets do
     collection do

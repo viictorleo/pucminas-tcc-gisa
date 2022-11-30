@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nome: MyString
+  codigo: MyString
+  descricao: MyString
+  valor: MyString
+  data_fim: 2022-11-29
+  coparticipacao: false
+
+two:
+  nome: MyString
+  codigo: MyString
+  descricao: MyString
+  valor: MyString
+  data_fim: 2022-11-29
+  coparticipacao: false

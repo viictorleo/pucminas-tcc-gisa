@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_27_185438) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_29_040107) do
   create_table "authorization_requests", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -35,6 +35,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_27_185438) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["health_wallet_id_id"], name: "index_pacientes_on_health_wallet_id_id"
+  end
+
+  create_table "plans", force: :cascade do |t|
+    t.string "nome"
+    t.string "codigo"
+    t.string "descricao"
+    t.string "valor"
+    t.date "data_fim"
+    t.boolean "coparticipacao"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

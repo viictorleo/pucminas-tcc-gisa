@@ -1,0 +1,615 @@
+swagger: '2.0'
+info:
+  description: "Essa API tem como finalidade permitir o acesso as informações persistidas pela aplicação GISA, tanto de aplicações externas quanto dos próprios módulos da GISA. Como principais clientes estão: prestadores, conveniados, associados e equipes comerciais."
+  version: 1.0.0
+  title: Swagger API GISA
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  contact:
+    email: victor.leonardo92@gmail.com
+host: gisa.swagger.io
+basePath: /v1
+tags:
+  - name: users
+    description: Gestão de Usuários
+  - name: plans
+    description: Gestão de Planos
+  - name: health-wallet
+    description: Gestão de Carteirinha
+  - name: authorizathion_request
+    description: Gestão de serviços realizados por prestadores credenciados
+schemes:
+  - https
+  - http
+paths:
+  /plans:
+    get:
+      summary: Consultar planos liberados pela ANS para comercialização
+      description: Multiple status values can be provided with comma separated strings
+      operationId: getPlans
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: status
+          in: query
+          description: Status values that need to be considered for filter
+          required: true
+          type: array
+          items:
+            type: string
+            enum:
+              - available
+              - pending
+              - sold
+            default: available
+          collectionFormat: multi
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Plans'
+        '400':
+          description: Invalid status value
+      security:
+        - gisa_auth:
+            - write:gisa
+            - read:gisa
+      tags:
+        - plans
+    post:
+      summary: Criar plano
+      description: Multiple status values can be provided with comma separated strings
+      operationId: createPlan
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: status
+          in: query
+          description: Status values that need to be considered for filter
+          required: true
+          type: array
+          items:
+            type: string
+            enum:
+              - available
+              - pending
+              - sold
+            default: available
+          collectionFormat: multi
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Plans'
+        '400':
+          description: Invalid status value
+      security:
+        - gisa_auth:
+            - write:gisa
+            - read:gisa
+      tags:
+        - plans
+  /plans/{plan_id}:
+    delete:
+      summary: Deletar plano
+      description: ''
+      operationId: deletePlan
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: api_key
+          in: header
+          required: false
+          type: string
+        - name: plan_id
+          in: path
+          description: Plan id to delete
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Plan not found
+      security:
+        - gisa_auth:
+            - write:gisa
+            - read:gisa
+      tags:
+        - plans
+    put:
+      summary: Alterar plano
+      description: ''
+      operationId: updatePlan
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: api_key
+          in: header
+          required: false
+          type: string
+        - name: plan_id
+          in: path
+          description: Plan id to delete
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Plan not found
+      security:
+        - gisa_auth:
+            - write:gisa
+            - read:gisa
+      tags:
+        - plans
+  /health-wallet:
+    get:
+      summary: Consultar carteirinhas para emissão/produção
+      description: Returns a map of status codes to quantities
+      operationId: getHealthWallet
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: object
+            additionalProperties:
+              type: integer
+              format: int32
+      security:
+        - api_key: []
+      tags:
+        - health-wallet
+    post:
+      summary: Criar/solicitar nova via de carteirinha
+      description: Returns a map of status codes to quantities
+      operationId: createHealthWallet
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: object
+            additionalProperties:
+              type: integer
+              format: int32
+      security:
+        - api_key: []
+      tags:
+        - health-wallet
+  /health-wallet/{card_id}:
+    put:
+      summary: Alterar status da carteirinha
+      description: Returns a map of status codes to quantities
+      operationId: putHealthWallet
+      produces:
+        - application/json
+      parameters: 
+        - name: card_id
+          in: path
+          description: name that need to be updated
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: object
+            additionalProperties:
+              type: integer
+              format: int32
+      security:
+        - api_key: []
+      tags:
+        - health-wallet
+    delete:
+      summary: Deletar carteirinha
+      description: Returns a map of status codes to quantities
+      operationId: deleteHealthWallet
+      produces:
+        - application/json
+      parameters: 
+        - name: card_id
+          in: path
+          description: name that need to be updated
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: object
+            additionalProperties:
+              type: integer
+              format: int32
+      security:
+        - api_key: []
+      tags:
+        - health-wallet
+  /authorizathion_request:
+    get:
+      summary: Consultar requisições de autorização de procedimento
+      description: ''
+      operationId: getAuthRequest
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: username
+          in: query
+          description: The user name for login
+          required: true
+          type: string
+        - name: password
+          in: query
+          description: The password for login in clear text
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          headers:
+            X-Expires-After:
+              type: string
+              format: date-time
+              description: date in UTC when token expires
+            X-Rate-Limit:
+              type: integer
+              format: int32
+              description: calls per hour allowed by the user
+          schema:
+            type: string
+        '400':
+          description: Invalid username/password supplied
+      security:
+        - gisa_auth:
+            - write:gisa
+            - read:gisa
+      tags:
+        - authorizathion_request
+    post:
+      summary: Criar requisição de autorização de procedimento
+      description: This can only be done by the logged in user.
+      operationId: createAuthRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: body
+          name: body
+          description: Created user object
+          required: true
+          schema:
+            $ref: '#/definitions/Users'
+      responses:
+        default:
+          description: successful operation
+      security:
+        - gisa_auth:
+            - write:gisa
+            - read:gisa
+      tags:
+        - authorizathion_request
+  /authorizathion_request/{request_id}:
+    put:
+      summary: Alterar status requisição de autorização de procedimento
+      description: Returns a map of status codes to quantities
+      operationId: putAuthRequest
+      produces:
+        - application/json
+      parameters: 
+        - name: request_id
+          in: path
+          description: name that need to be updated
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: object
+            additionalProperties:
+              type: integer
+              format: int32
+      security:
+        - api_key: []
+      tags:
+        - authorizathion_request
+    delete:
+      summary: Deletar requisição de autorização de procedimento
+      description: Returns a map of status codes to quantities
+      operationId: deleteAuthRequest
+      produces:
+        - application/json
+      parameters: 
+        - name: request_id
+          in: path
+          description: name that need to be updated
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: object
+            additionalProperties:
+              type: integer
+              format: int32
+      security:
+        - api_key: []
+      tags:
+        - authorizathion_request
+  /users:
+    get:
+      summary: Consultar Usuario
+      description: ''
+      operationId: loginUser
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: username
+          in: query
+          description: The user name for login
+          required: true
+          type: string
+        - name: password
+          in: query
+          description: The password for login in clear text
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          headers:
+            X-Expires-After:
+              type: string
+              format: date-time
+              description: date in UTC when token expires
+            X-Rate-Limit:
+              type: integer
+              format: int32
+              description: calls per hour allowed by the user
+          schema:
+            type: string
+        '400':
+          description: Invalid username/password supplied
+      security:
+        - gisa_auth:
+            - write:gisa
+            - read:gisa
+      tags:
+        - users
+    post:
+      summary: Criar usuário
+      description: This can only be done by the logged in user.
+      operationId: createUser
+      consumes:
+        - application/json
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: body
+          name: body
+          description: Created user object
+          required: true
+          schema:
+            $ref: '#/definitions/Users'
+      responses:
+        default:
+          description: successful operation
+      security:
+        - gisa_auth:
+            - write:gisa
+            - read:gisa
+      tags:
+        - users
+  /users/{user_id}:
+    put:
+      summary: Alterar usuário
+      description: This can only be done by the logged in user.
+      operationId: updateUser
+      consumes:
+        - application/json
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: user_id
+          in: path
+          description: name that need to be updated
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Updated user object
+          required: true
+          schema:
+            $ref: '#/definitions/Users'
+      responses:
+        '400':
+          description: Invalid user supplied
+        '404':
+          description: User not found
+      security:
+        - gisa_auth:
+            - write:gisa
+            - read:gisa
+      tags:
+        - users
+    delete:
+      summary: Deletar usuário
+      description: This can only be done by the logged in user.
+      operationId: deleteUser
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: user_id
+          in: path
+          description: The name that needs to be deleted
+          required: true
+          type: string
+      responses:
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+      security:
+        - gisa_auth:
+            - write:gisa
+            - read:gisa
+      tags:
+        - users
+securityDefinitions:
+  api_key:
+    type: apiKey
+    name: api_key
+    in: header
+  gisa_auth:
+    type: oauth2
+    authorizationUrl: https://gisa.swagger.io/oauth/authorize
+    flow: implicit
+    scopes:
+      read:gisa: read your gisa infos
+      write:gisa: modify infos in your account
+definitions:
+  ApiResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      type:
+        type: string
+      message:
+        type: string
+  Category:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+    xml:
+      name: Category
+  Plans:
+    type: object
+    required:
+      - name
+      - photoUrls
+    properties:
+      id:
+        type: integer
+        format: int64
+      category:
+        $ref: '#/definitions/Category'
+      name:
+        type: string
+        example: doggie
+      photoUrls:
+        type: array
+        xml:
+          wrapped: true
+        items:
+          type: string
+          xml:
+            name: photoUrl
+      tags:
+        type: array
+        xml:
+          wrapped: true
+        items:
+          xml:
+            name: tag
+          $ref: '#/definitions/Tag'
+      status:
+        type: string
+        description: Plan status in the store
+        enum:
+          - available
+          - pending
+          - sold
+    xml:
+      name: Plan
+  Tag:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+    xml:
+      name: Tag
+  Order:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      planId:
+        type: integer
+        format: int64
+      quantity:
+        type: integer
+        format: int32
+      shipDate:
+        type: string
+        format: date-time
+      status:
+        type: string
+        description: Order Status
+        enum:
+          - placed
+          - approved
+          - delivered
+      complete:
+        type: boolean
+    xml:
+      name: Order
+  Users:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      username:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      userStatus:
+        type: integer
+        format: int32
+        description: User Status
+    xml:
+      name: Users
